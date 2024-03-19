@@ -16,7 +16,10 @@ export const LoginPage = () => {
       setLoading(true);
       const { email, password } = user;
       if (email && password) {
-        AxiosInstance.post("/login", user)
+        AxiosInstance.post("/login", {
+          ...user,
+          email: email.toLowerCase(),
+        })
           .then((res) => {
             localStorage.setItem("jwttoken", res.data.token);
             setLoading(false);

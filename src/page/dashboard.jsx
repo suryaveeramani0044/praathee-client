@@ -68,7 +68,11 @@ export const Dashboard = () => {
     });
   };
   const handleSubmit = async () => {
-    edit ? await dispatch(updateUer(user, id)) : await dispatch(addUser(user));
+    edit
+      ? await dispatch(
+          updateUer({ ...user, email: user.email.toLowerCase() }, id)
+        )
+      : await dispatch(addUser({ ...user, email: user.email.toLowerCase() }));
     edit && setEdit(false);
     setUser({
       firstName: "",
