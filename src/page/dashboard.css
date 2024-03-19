@@ -28,6 +28,7 @@ button.delete {
   align-items: center;
   border-radius: 3px;
   font-weight: 600;
+  cursor: pointer;
 }
 .edit {
   background: #13c0e7;
