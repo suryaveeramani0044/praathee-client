@@ -35,6 +35,7 @@ export const App = () => {
 };
 const PrtotectedRoute = ({ children }) => {
   const [auth, setAuth] = useState(false);
+  const navigate = useNavigate();
   let token;
   /* eslint-disable */
   useEffect(() => {
@@ -43,5 +44,22 @@ const PrtotectedRoute = ({ children }) => {
       setAuth(true);
     }
   }, []);
-  return auth ? children : <div>please login</div>;
+  return auth ? (
+    children
+  ) : (
+    <div
+      style={{
+        height: "100vh",
+        background: "#cc00ff",
+        textAlign: "center",
+        color: "white",
+        padding: "20px",
+      }}
+    >
+      <h4> Please go back to home,Login for getting access dashboard</h4>
+      <button onClick={() => navigate("/")} className="login-btn">
+        Home
+      </button>
+    </div>
+  );
 };

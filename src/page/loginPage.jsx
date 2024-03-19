@@ -45,7 +45,7 @@ export const LoginPage = () => {
         <h3 className="title">Welcome</h3>
         <input
           type="text"
-          placeholder="Email or Username"
+          placeholder="Enter your Email"
           name="email"
           value={user.email}
           onChange={(e) => setUser({ ...user, email: e.target.value })}
