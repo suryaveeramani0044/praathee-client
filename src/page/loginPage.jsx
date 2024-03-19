@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./login.css";
 import AxiosInstance from "../api/api";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export const LoginPage = () => {
   const [user, setUser] = useState({
@@ -17,13 +18,14 @@ export const LoginPage = () => {
       if (email && password) {
         AxiosInstance.post("/login", user)
           .then((res) => {
-            console.log("login data", res.data.token);
             localStorage.setItem("jwttoken", res.data.token);
             setLoading(false);
             navigate("/dashboard");
           })
           .catch((e) => {
-            console.log(e);
+            toast.error(
+              e.response.data.message ? e.response.data.message : e.message
+            );
           });
       } else {
         alert("please fill all field");

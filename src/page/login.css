@@ -56,3 +56,9 @@ p.reg-text {
   font-weight: bold;
   color: orange;
 }
+
+@media only screen and (max-width: 600px) {
+  .login-container {
+    min-width: 90%;
+  }
+}
