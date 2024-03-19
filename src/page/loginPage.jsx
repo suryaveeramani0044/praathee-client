@@ -16,7 +16,7 @@ export const LoginPage = () => {
       setLoading(true);
       const { email, password } = user;
       if (email && password) {
-        AxiosInstance.post("/login", {
+        AxiosInstance.post("/users/login", {
           ...user,
           email: email.toLowerCase(),
         })

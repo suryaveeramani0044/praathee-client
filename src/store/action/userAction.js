@@ -4,7 +4,7 @@ import AxiosInstance from "../../api/api";
 export const getUsers = () => async (dispatch) => {
   try {
     dispatch({ type: "LOADING_ON" });
-    const response = await AxiosInstance.get(`/`);
+    const response = await AxiosInstance.get(`/emp/`);
     if (response) {
       dispatch({
         type: "SET_USERS",
@@ -20,7 +20,7 @@ export const getUsers = () => async (dispatch) => {
 
 export const addUser = (data) => async (dispatch) => {
   try {
-    const response = await AxiosInstance.post(`/`, data);
+    const response = await AxiosInstance.post(`/emp/`, data);
     console.log("response", response.data);
     if (response) {
       dispatch({
@@ -38,7 +38,7 @@ export const addUser = (data) => async (dispatch) => {
 
 export const updateUer = (data, id) => async (dispatch) => {
   try {
-    const response = await AxiosInstance.patch(`/${id}`, data);
+    const response = await AxiosInstance.patch(`/emp/${id}`, data);
 
     if (response) {
       dispatch({
@@ -56,7 +56,7 @@ export const updateUer = (data, id) => async (dispatch) => {
 
 export const deleteUser = (id) => async (dispatch) => {
   try {
-    const response = await AxiosInstance.delete(`/${id}`);
+    const response = await AxiosInstance.delete(`/emp/${id}`);
     if (response?.data?.count === 1) {
       dispatch({ type: "DEL_USER", payload: id });
     }

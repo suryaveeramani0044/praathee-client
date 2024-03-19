@@ -29,9 +29,9 @@ export const Dashboard = () => {
     firstName: "",
     lastName: "",
     email: "",
-    role: "Employee",
     address: "",
-    password: "",
+    position: "",
+    salary: "",
   });
   const [search, setSearch] = useState([]);
   const [searchItem, setSearchItem] = useState("");
@@ -70,18 +70,30 @@ export const Dashboard = () => {
   const handleSubmit = async () => {
     edit
       ? await dispatch(
-          updateUer({ ...user, email: user.email.toLowerCase() }, id)
+          updateUer(
+            {
+              ...user,
+              email: user.email.toLowerCase(),
+              salary: parseInt(user.salary),
+            },
+            id
+          )
         )
-      : await dispatch(addUser({ ...user, email: user.email.toLowerCase() }));
+      : await dispatch(
+          addUser({
+            ...user,
+            email: user.email.toLowerCase(),
+            salary: parseInt(user.salary),
+          })
+        );
     edit && setEdit(false);
     setUser({
       firstName: "",
       lastName: "",
       email: "",
-      role: "Employee",
       address: "",
-      mobile: "",
-      password: "",
+      position: "",
+      salary: "",
     });
   };
   const handleEdit = (item) => {
@@ -92,9 +104,8 @@ export const Dashboard = () => {
       firstName: item.firstName,
       lastName: item.lastName,
       email: item.email,
-      role: item.role,
       address: item.address,
-      mobile: item.mobile,
+      position: item.position,
       salary: item.salary,
     });
   };
@@ -141,14 +152,14 @@ export const Dashboard = () => {
                 onChange={(e) => handleChange(e)}
                 className="add-input"
               />
-              <select
-                name="role"
-                value={user.role}
+              <input
+                placeholder="
+            position"
+                name="position"
+                value={user.position}
                 onChange={(e) => handleChange(e)}
-              >
-                <option value="Employee">Employee</option>
-                <option value="Admin">Admin</option>
-              </select>
+                className="add-input"
+              />
               <input
                 placeholder="address"
                 name="address"
@@ -158,9 +169,9 @@ export const Dashboard = () => {
               />
               <input
                 placeholder="
-            password"
-                name="password"
-                value={user.password}
+            salary"
+                name="salary"
+                value={user.salary}
                 onChange={(e) => handleChange(e)}
                 className="add-input"
               />
@@ -194,7 +205,7 @@ export const Dashboard = () => {
                   email: "",
                   role: "Employee",
                   address: "",
-                  mobile: "",
+                  position: "",
                   salary: "",
                 });
               }}
@@ -218,7 +229,8 @@ export const Dashboard = () => {
                 <TableCell>First Name</TableCell>
                 <TableCell>Last Name</TableCell>
                 <TableCell>Email</TableCell>
-                <TableCell>Role</TableCell>
+                <TableCell>Position</TableCell>
+                <TableCell>Salary</TableCell>
                 <TableCell>Address</TableCell>
                 {userDetails?.role === "Admin" && <TableCell>Action</TableCell>}
               </TableRow>
@@ -237,7 +249,8 @@ export const Dashboard = () => {
                         <TableCell>{item.firstName}</TableCell>
                         <TableCell>{item.lastName}</TableCell>
                         <TableCell>{item.email}</TableCell>
-                        <TableCell>{item.role}</TableCell>
+                        <TableCell>{item.position}</TableCell>
+                        <TableCell>{item.salary}</TableCell>
                         <TableCell>{item.address}</TableCell>
                         {userDetails?.role === "Admin" && (
                           <TableCell>
@@ -268,7 +281,8 @@ export const Dashboard = () => {
                       <TableCell>{item.firstName}</TableCell>
                       <TableCell>{item.lastName}</TableCell>
                       <TableCell>{item.email}</TableCell>
-                      <TableCell>{item.role}</TableCell>
+                      <TableCell>{item.position}</TableCell>
+                      <TableCell>{item.salary}</TableCell>
                       <TableCell>{item.address}</TableCell>
                       {userDetails?.role === "Admin" && (
                         <TableCell className="action-data">
