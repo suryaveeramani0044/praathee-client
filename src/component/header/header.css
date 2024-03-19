@@ -1,0 +1,22 @@
+header {
+  background: linear-gradient(145deg, #cc00ff, #551391);
+  padding: 10px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+button.logout {
+  padding: 5px 10px;
+  background: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 700;
+}
+svg.add-icon,
+.clear-icon {
+  position: absolute;
+  right: 10%;
+  top: 0;
+}

@@ -1,0 +1,95 @@
+main.main {
+  background: blue;
+  height: 100vh;
+}
+
+table {
+  width: 90%;
+  margin: 10px auto;
+  background: white;
+}
+
+th {
+  background: black;
+  color: white !important;
+}
+th,
+td {
+  padding: 5px;
+  text-align: center;
+}
+
+button.edit,
+button.delete {
+  padding: 3px 10px;
+  border: none;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  border-radius: 3px;
+  font-weight: 600;
+}
+.edit {
+  background: #13c0e7;
+  margin-right: 10px;
+}
+.delete {
+  background: red;
+}
+td.action-data {
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+}
+section.search {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  justify-content: center;
+}
+section.emp-form {
+  position: relative;
+  padding: 30px 10px;
+}
+input.search {
+  padding: 5px 20px;
+  width: 300px;
+  /* margin: auto; */
+  border-radius: 3px;
+  border: none;
+  outline: none;
+}
+
+button.add-btn {
+  margin-left: 5px;
+  padding: 5px 10px;
+  background: #606065;
+  color: white;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+input.add-input {
+  padding: 5px;
+  margin: 3px;
+  border: none;
+  border-radius: 3px;
+}
+
+select {
+  padding: 5px;
+  border: none;
+  width: 150px;
+  border-radius: 3px;
+}
+
+.table-container {
+  padding: 100px;
+  overflow: auto;
+}
+@media only screen and (max-width: 600px) {
+  .table-container {
+    padding: 10px;
+  }
+}

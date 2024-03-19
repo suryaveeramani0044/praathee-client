@@ -1,25 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import { Routes, Route, useNavigate } from "react-router-dom";
+import { LoginPage } from "./page/loginPage";
+import { Dashboard } from "./page/dashboard";
+import { useEffect, useState } from "react";
+import { ToastContainer } from "react-toastify";
 
-function App() {
+import "react-toastify/dist/ReactToastify.css";
+
+export const App = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem("jwttoken");
+    if (token) {
+      navigate("/dashboard");
+    }
+  }, []);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
+        <Route
+          path="/dashboard"
+          element={
+            <PrtotectedRoute>
+              <Dashboard />
+            </PrtotectedRoute>
+          }
+        />
+        <Route path="*" element={<div>page not found</div>} />
+      </Routes>
+      <ToastContainer />
+    </>
   );
-}
-
-export default App;
+};
+const PrtotectedRoute = ({ children }) => {
+  const [auth, setAuth] = useState(false);
+  let token;
+  useEffect(() => {
+    token = localStorage.getItem("jwttoken");
+    if (token) {
+      setAuth(true);
+    }
+  }, []);
+  return auth ? children : <div>please login</div>;
+};
