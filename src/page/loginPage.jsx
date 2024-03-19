@@ -56,7 +56,6 @@ export const LoginPage = () => {
         <button className="login-btn" onClick={() => handleLogin()}>
           {loading ? "loading..." : "Login"}
         </button>
-        <p className="reg-text">Have a good day</p>
       </section>
     </main>
   );
