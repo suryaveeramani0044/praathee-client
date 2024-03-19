@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 export const App = () => {
   const navigate = useNavigate();
+  /* eslint-disable */
   useEffect(() => {
     const token = localStorage.getItem("jwttoken");
     if (token) {
@@ -35,6 +36,7 @@ export const App = () => {
 const PrtotectedRoute = ({ children }) => {
   const [auth, setAuth] = useState(false);
   let token;
+  /* eslint-disable */
   useEffect(() => {
     token = localStorage.getItem("jwttoken");
     if (token) {

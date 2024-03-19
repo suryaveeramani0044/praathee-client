@@ -63,5 +63,8 @@ export const deleteUser = (id) => async (dispatch) => {
     toast.info("user deleted successfully");
   } catch (e) {
     console.log(e);
+    toast.error(
+      e.response.data.errors?.msg ? e.response.data.errors?.msg : e.message
+    );
   }
 };

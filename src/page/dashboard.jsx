@@ -21,6 +21,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import { jwtDecode } from "jwt-decode";
 
 export const Dashboard = () => {
   const dispatch = useDispatch();
@@ -30,7 +31,6 @@ export const Dashboard = () => {
     email: "",
     role: "Employee",
     address: "",
-    mobile: "",
     password: "",
   });
   const [search, setSearch] = useState([]);
@@ -38,9 +38,18 @@ export const Dashboard = () => {
   const [id, setID] = useState("");
   const [add, setAdd] = useState(false);
   const [edit, setEdit] = useState(false);
-
+  const [userDetails, setUserDetails] = useState(null);
+  /* eslint-disable */
   useEffect(() => {
     dispatch(getUsers());
+  }, []);
+
+  useEffect(() => {
+    const token = localStorage.getItem("jwttoken");
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      setUserDetails(decodedToken);
+    }
   }, []);
 
   const store = useSelector((store) => {
@@ -102,95 +111,94 @@ export const Dashboard = () => {
   return (
     <main className="main">
       <Header />
-      <section className="emp-form">
-        {add && (
-          <>
-            <input
-              placeholder="First Name"
-              name="firstName"
-              value={user.firstName}
-              onChange={(e) => handleChange(e)}
-              className="add-input"
-            />
-            <input
-              placeholder="
+      {userDetails?.role === "Admin" && (
+        <section className="emp-form">
+          {add && (
+            <>
+              <input
+                placeholder="First Name"
+                name="firstName"
+                value={user.firstName}
+                onChange={(e) => handleChange(e)}
+                className="add-input"
+              />
+              <input
+                placeholder="
             Last Name"
-              name="lastName"
-              value={user.lastName}
-              onChange={(e) => handleChange(e)}
-              className="add-input"
-            />
-            <input
-              placeholder="email"
-              name="email"
-              value={user.email}
-              onChange={(e) => handleChange(e)}
-              className="add-input"
-            />
-            <select
-              name="role"
-              value={user.role}
-              onChange={(e) => handleChange(e)}
-            >
-              <option value="Employee">Employee</option>
-              <option value="Admin">Admin</option>
-            </select>
-            <input
-              placeholder="address"
-              name="address"
-              value={user.address}
-              onChange={(e) => handleChange(e)}
-              className="add-input"
-            />
-            <input
-              placeholder="
-            mobile"
-              name="mobile"
-              value={user.mobile}
-              onChange={(e) => handleChange(e)}
-              className="add-input"
-            />
-            <input
-              placeholder="
+                name="lastName"
+                value={user.lastName}
+                onChange={(e) => handleChange(e)}
+                className="add-input"
+              />
+              <input
+                placeholder="email"
+                name="email"
+                value={user.email}
+                onChange={(e) => handleChange(e)}
+                className="add-input"
+              />
+              <select
+                name="role"
+                value={user.role}
+                onChange={(e) => handleChange(e)}
+              >
+                <option value="Employee">Employee</option>
+                <option value="Admin">Admin</option>
+              </select>
+              <input
+                placeholder="address"
+                name="address"
+                value={user.address}
+                onChange={(e) => handleChange(e)}
+                className="add-input"
+              />
+              <input
+                placeholder="
             password"
-              name="password"
-              value={user.password}
-              onChange={(e) => handleChange(e)}
-              className="add-input"
+                name="password"
+                value={user.password}
+                onChange={(e) => handleChange(e)}
+                className="add-input"
+              />
+
+              <button onClick={() => handleSubmit()} className="add-btn">
+                {edit ? "Update" : "Save"}
+              </button>
+            </>
+          )}
+
+          {add ? (
+            <MdCancel
+              onClick={() => setAdd(false)}
+              style={{ color: "red", fontSize: "1.3rem", cursor: "pointer" }}
+              className="add-icon"
             />
+          ) : (
+            <IoMdAddCircle
+              style={{
+                color: "#00ff00",
+                fontSize: "1.3rem",
+                cursor: "pointer",
+              }}
+              className="clear-icon"
+              onClick={() => {
+                setAdd(true);
+                setEdit(false);
+                setUser({
+                  firstName: "",
+                  lastName: "",
+                  email: "",
+                  role: "Employee",
+                  address: "",
+                  mobile: "",
+                  salary: "",
+                });
+              }}
+            />
+          )}
+        </section>
+      )}
 
-            <button onClick={() => handleSubmit()} className="add-btn">
-              {edit ? "Update" : "Save"}
-            </button>
-          </>
-        )}
-
-        {add ? (
-          <MdCancel
-            onClick={() => setAdd(false)}
-            style={{ color: "red", fontSize: "1.3rem", cursor: "pointer" }}
-            className="add-icon"
-          />
-        ) : (
-          <IoMdAddCircle
-            style={{ color: "#00ff00", fontSize: "1.3rem", cursor: "pointer" }}
-            className="clear-icon"
-            onClick={() => {
-              setAdd(true);
-              setEdit(false);
-              setUser({
-                firstName: "",
-                lastName: "",
-                email: "",
-                role: "Employee",
-                address: "",
-                mobile: "",
-                salary: "",
-              });
-            }}
-          />
-        )}
-      </section>
       <section className="search">
         <input
           placeholder="Search Name and Address"
@@ -208,7 +216,7 @@ export const Dashboard = () => {
                 <TableCell>Email</TableCell>
                 <TableCell>Role</TableCell>
                 <TableCell>Address</TableCell>
-                <TableCell>Action</TableCell>
+                {userDetails?.role === "Admin" && <TableCell>Action</TableCell>}
               </TableRow>
             </TableHead>
 
@@ -227,16 +235,24 @@ export const Dashboard = () => {
                         <TableCell>{item.email}</TableCell>
                         <TableCell>{item.role}</TableCell>
                         <TableCell>{item.address}</TableCell>
-                        <TableCell>
-                          <button onClick={() => handleEdit(item)}>
-                            <MdEditSquare />
-                            Edit
-                          </button>
-                          <button onClick={() => handleDelete(item._id)}>
-                            <MdDelete />
-                            Delete
-                          </button>
-                        </TableCell>
+                        {userDetails?.role === "Admin" && (
+                          <TableCell>
+                            <button
+                              onClick={() => handleEdit(item)}
+                              className="edit"
+                            >
+                              <MdEditSquare />
+                              Edit
+                            </button>
+                            <button
+                              onClick={() => handleDelete(item._id)}
+                              className="delete"
+                            >
+                              <MdDelete />
+                              Delete
+                            </button>
+                          </TableCell>
+                        )}
                       </TableRow>
                     );
                   })
@@ -250,22 +266,24 @@ export const Dashboard = () => {
                       <TableCell>{item.email}</TableCell>
                       <TableCell>{item.role}</TableCell>
                       <TableCell>{item.address}</TableCell>
-                      <TableCell className="action-data">
-                        <button
-                          onClick={() => handleEdit(item)}
-                          className="edit"
-                        >
-                          <MdEditSquare style={{ marginRight: "5px" }} />
-                          Edit
-                        </button>
-                        <button
-                          onClick={() => handleDelete(item._id)}
-                          className="delete"
-                        >
-                          <MdDelete style={{ marginRight: "5px" }} />
-                          Delete
-                        </button>
-                      </TableCell>
+                      {userDetails?.role === "Admin" && (
+                        <TableCell className="action-data">
+                          <button
+                            onClick={() => handleEdit(item)}
+                            className="edit"
+                          >
+                            <MdEditSquare />
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => handleDelete(item._id)}
+                            className="delete"
+                          >
+                            <MdDelete />
+                            Delete
+                          </button>
+                        </TableCell>
+                      )}
                     </TableRow>
                   );
                 })
